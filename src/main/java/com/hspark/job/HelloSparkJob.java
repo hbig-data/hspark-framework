@@ -45,7 +45,7 @@ public class HelloSparkJob implements Callable<String>, Serializable {
                 return Integer.valueOf(split[1]);
             }
         });
-        map.saveAsObjectFile("file:///E:/test/spark/result");
+        map.saveAsObjectFile("file:///E:/test/spark/result1");
 
         context.close();
 
