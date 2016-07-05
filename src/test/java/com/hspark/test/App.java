@@ -13,7 +13,10 @@ public class App {
 
     @Test
     public void testApp() throws Exception {
-        log.info("app");
+
+        for (int i = 0; i < 1_000_000; i++) {
+            log.info("app log test:{}", i);
+        }
 
 
     }

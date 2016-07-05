@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info" monitorInterval="0">
     <Properties>
-        <Property name="filename">/opt/log/springmvc-project.log</Property>
+        <Property name="filename">/opt/log/hspark-framework.log</Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
@@ -11,16 +11,23 @@
         <RollingFile name="RollingFile" fileName="${filename}" filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
             <SizeBasedTriggeringPolicy size="50MB"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
         </RollingFile>
 
-        <appender name="AsyncOut" class="org.apache.log4j.AsyncAppender">
-            <param name="BufferSize" value="512" />
-            <appender-ref ref="RollingFile" />
-        </appender>
+        <Async name="AsyncOut">
+            <AppenderRef ref="RollingFile"/>
+        </Async>
     </Appenders>
     <Loggers>
         <!--隐藏Hibernate的参数问号警告-->
         <Logger name="org.hibernate.hql.internal.ast.HqlSqlWalker" level="ERROR" additivity="false">
+            <AppenderRef ref="Console"/>
+
+        </Logger>
+
+        <Logger name="org.apache.spark" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
 
@@ -32,6 +39,7 @@
 
         <Root level="info">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="AsyncOut" />
         </Root>
     </Loggers>
 </Configuration>
