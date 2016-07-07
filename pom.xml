@@ -192,6 +192,8 @@
         <spark.version>1.6.1</spark.version>
         <spark.scala.version>2.11</spark.scala.version>
 
+        <hbase.client.version>1.2.1</hbase.client.version>
+
 
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -270,7 +272,25 @@
             <version>${spark.version}</version>
         </dependency>
 
+        <!-- ======================================   HBase Client Jar ===================================================================-->
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>${hbase.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-common</artifactId>
+            <version>${hbase.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-server</artifactId>
+            <version>${hbase.client.version}</version>
+        </dependency>
 
+
+        <!-- ======================================   ElasticSearch Client Jar ===================================================================-->
 
     </dependencies>
 
@@ -292,8 +312,6 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
-
-
 
 
         </plugins>
