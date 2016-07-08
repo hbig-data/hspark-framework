@@ -17,30 +17,6 @@
         </developer>
     </developers>
 
-
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>opensesame.releases</id>-->
-    <!--<url>http://code.alibabatech.com/mvn/releases</url>-->
-    <!--<releases>-->
-    <!--<enabled>true</enabled>-->
-    <!--</releases>-->
-    <!--<snapshots>-->
-    <!--<enabled>false</enabled>-->
-    <!--</snapshots>-->
-    <!--</repository>-->
-    <!--<repository>-->
-    <!--<id>bitwalker.user-agent-utils.mvn.repo</id>-->
-    <!--<url>https://raw.github.com/HaraldWalker/user-agent-utils/mvn-repo/</url>-->
-    <!--<releases>-->
-    <!--<enabled>true</enabled>-->
-    <!--</releases>-->
-    <!--<snapshots>-->
-    <!--<enabled>true</enabled>-->
-    <!--<updatePolicy>always</updatePolicy>-->
-    <!--</snapshots>-->
-    <!--</repository>-->
-    <!--</repositories>-->
     <repositories>
         <repository>
             <id>oschina</id>
@@ -271,8 +247,25 @@
             <artifactId>spark-yarn_${spark.scala.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka_${spark.scala.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-flume-sink_${spark.scala.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
 
         <!-- ======================================   HBase Client Jar ===================================================================-->
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase</artifactId>
+            <version>${hbase.client.version}</version>
+            <type>pom</type>
+        </dependency>
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-client</artifactId>
@@ -288,6 +281,7 @@
             <artifactId>hbase-server</artifactId>
             <version>${hbase.client.version}</version>
         </dependency>
+
 
 
         <!-- ======================================   ElasticSearch Client Jar ===================================================================-->
