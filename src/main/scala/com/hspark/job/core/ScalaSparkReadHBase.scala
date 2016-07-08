@@ -9,13 +9,13 @@ import org.apache.spark.{SparkConf, SparkContext}
   * @author Rayn on 2016/7/7.
   * @email liuwei412552703@163.com.
   */
-object SparkReadHBase {
+object ScalaSparkReadHBase {
   def main(args: Array[String]) {
 
     val sc: SparkContext = new SparkContext("local[1]", "HBaseTest", "")
 
     val conf = HBaseConfiguration.create()
-    conf.set(TableInputFormat.INPUT_TABLE, args(1))
+    conf.set(TableInputFormat.INPUT_TABLE, "testscan")
 
     val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
