@@ -170,6 +170,8 @@
 
         <hbase.client.version>1.2.1</hbase.client.version>
 
+        <flume.sdk.version>1.6.0</flume.sdk.version>
+
 
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -259,11 +261,7 @@
             <artifactId>spark-streaming-kafka_${spark.scala.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming-flume-sink_${spark.scala.version}</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
+
 
 
         <!-- ======================================   HBase Client Jar ===================================================================-->
@@ -292,6 +290,27 @@
 
 
         <!-- ======================================   ElasticSearch Client Jar ===================================================================-->
+
+
+
+
+        <!-- ======================================   Flume client Jar ===================================================================-->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-flume_${spark.scala.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-flume-sink_${spark.scala.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flume</groupId>
+            <artifactId>flume-ng-sdk</artifactId>
+            <version>${flume.sdk.version}</version>
+        </dependency>
+
 
     </dependencies>
 

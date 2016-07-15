@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @email liuwei412552703@163.com
  * Created by Rayn on 2016/7/7 17:43.
  */
-public class HelloSparkKafka implements Serializable {
+public class SparkStreamingKafka implements Serializable {
 
     /**
      * 写offset 到 zookeeper

@@ -22,8 +22,8 @@ import java.util.regex.Pattern;
  * @email liuwei412552703@163.com
  * Created by Rayn on 2016/7/5 16:49.
  */
-public class HelloSparkStreaming {
-    public static final Logger log = LoggerFactory.getLogger(HelloSparkStreaming.class);
+public class SparkStreamingWordCount {
+    public static final Logger log = LoggerFactory.getLogger(SparkStreamingWordCount.class);
 
 
     private static final Pattern SPACE = Pattern.compile(" ");
