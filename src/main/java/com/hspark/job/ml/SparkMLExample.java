@@ -24,12 +24,7 @@ import org.apache.spark.sql.types.StructType;
 public class SparkMLExample {
 
     public static void main(String[] args) {
-        JavaSparkContext sc = new JavaSparkContext(
-                "local",
-                "textTest",
-                "",
-                new String[]{}
-        );
+        JavaSparkContext sc = new JavaSparkContext("local", "textTest", "", new String[]{});
 
         JavaRDD<String> textFile = sc.textFile("hdfs://...");
 
