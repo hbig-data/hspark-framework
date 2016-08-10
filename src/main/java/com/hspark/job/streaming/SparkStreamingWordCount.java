@@ -37,7 +37,7 @@ public class SparkStreamingWordCount {
         jssc.checkpoint(".");
 
         //打开本地的端口9999
-        JavaReceiverInputDStream<String> lines = jssc.socketTextStream("192.168.1.107", 9999);
+        JavaReceiverInputDStream<String> lines = jssc.socketTextStream("192.168.1.116", 9999);
         //按行输入，以空格分隔
         JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
             @Override

@@ -1,11 +1,14 @@
 package com.hspark.job.streaming;
 
 import kafka.serializer.StringDecoder;
+import org.apache.spark.SparkConf;
+import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.streaming.Duration;
+import org.apache.spark.streaming.StreamingContext;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
@@ -60,8 +63,14 @@ public class SparkStreamingKafka implements Serializable {
         Map<String, String> kafkaParams = new HashMap<String, String>();
         Set<String> topicsSet = new HashSet<String>();
 
+        SparkConf sparkConf = new SparkConf();
+        sparkConf.set("spark.streaming.receiver.writeAheadLog.enable","true");
+        sparkConf.setMaster("local[1]");
+        sparkConf.setAppName("kafkaSpark");
 
-        JavaSparkContext jssc = new JavaSparkContext("local[1]", "kafkaSpark", "", new String[]{});
+        JavaSparkContext jssc = new JavaSparkContext(sparkConf);
+        jssc.checkpointFile("E:/test/checkpoint");
+
         JavaStreamingContext jsc = new JavaStreamingContext(jssc, Duration.apply(3 * 1_000));
 
         JavaPairInputDStream<String, String> messages = KafkaUtils.createDirectStream(jsc, String.class, String.class, StringDecoder.class, StringDecoder.class, kafkaParams, topicsSet);

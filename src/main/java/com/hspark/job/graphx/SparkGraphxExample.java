@@ -25,11 +25,6 @@ public class SparkGraphxExample {
 
         Graph<Object, Object> objectGraph = GraphLoader.edgeListFile(sc, "", false, 10, StorageLevel.MEMORY_AND_DISK(), StorageLevel.MEMORY_ONLY());
 
-        EdgePartitionBuilder<String, String> partitionBuilder = new EdgePartitionBuilder<>(10, new ClassTag<String>(), new ClassTag<String>());
-
-
-
-
 
 
     }
