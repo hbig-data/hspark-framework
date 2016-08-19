@@ -1,19 +1,21 @@
 package com.hspark.job.sql;
 
 import com.hspark.job.vo.Pair;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.sql.DataFrame;
+import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -23,24 +25,21 @@ import java.util.StringTokenizer;
  * @email liuwei412552703@163.com.
  */
 public class TextSQLLocalTest implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 
-
-	public final static Log log = LogFactory.getLog(TextSQLLocalTest.class);
-
+    public final static Log log = LogFactory.getLog(TextSQLLocalTest.class);
 
 
     public void start() throws IOException {
         //初始化sparkContext，这里必须在jars参数里面放上Hbase的jar，
         // 否则会报unread block data异常
         JavaSparkContext sc = new JavaSparkContext(
-        		"local",
-        		"textTest",
+                "local",
+                "textTest",
                 "",
-                new String[]{  }
+                new String[]{}
         );
-
 
 
         //使用HBaseConfiguration.create()生成Configuration
@@ -57,26 +56,29 @@ public class TextSQLLocalTest implements Serializable {
         System.out.println("====" + graphRDD.count());
         JavaRDD<Pair> pairJavaRDD = graphRDD.flatMap(new FlatMapFunction<String, Pair>() {
             @Override
-            public Iterable<Pair> call(String s) throws Exception {
-                List<Pair> strs = new LinkedList<Pair>();
+            public Iterator<Pair> call(String s) throws Exception {
+                ArrayList<Pair> pairs = new ArrayList<>();
                 StringTokenizer tokenizer = new StringTokenizer(s);
+
                 while (tokenizer.hasMoreTokens()) {
                     String word = tokenizer.nextToken();
-                    if (org.apache.commons.lang.StringUtils.isNotBlank(word)) {
-                        strs.add(new Pair(word, 1));
+                    if (StringUtils.isNotBlank(word)) {
+                        pairs.add(new Pair(word, 1));
+
                     }
                 }
-                return strs;
+                return pairs.iterator();
 
             }
         });
 
         SQLContext sqlContext = new SQLContext(sc);
-        DataFrame dataFrame = sqlContext.createDataFrame(pairJavaRDD, Pair.class);
+        Dataset<Row> dataFrame = sqlContext.createDataFrame(pairJavaRDD, Pair.class);
+
         dataFrame.registerTempTable("pair");
 
         // SQL can be run over RDDs that have been registered as tables.
-        DataFrame teenagers = sqlContext.sql("SELECT text, count(*) as c FROM pair group by text order by c DESC limit 20");
+        Dataset<Row> teenagers = sqlContext.sql("SELECT text, count(*) as c FROM pair group by text order by c DESC limit 20");
 
         Row[] collect = teenagers.collect();
         for (Row row : collect) {

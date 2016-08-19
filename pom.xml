@@ -17,31 +17,16 @@
         </developer>
     </developers>
 
-
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>opensesame.releases</id>-->
-    <!--<url>http://code.alibabatech.com/mvn/releases</url>-->
-    <!--<releases>-->
-    <!--<enabled>true</enabled>-->
-    <!--</releases>-->
-    <!--<snapshots>-->
-    <!--<enabled>false</enabled>-->
-    <!--</snapshots>-->
-    <!--</repository>-->
-    <!--<repository>-->
-    <!--<id>bitwalker.user-agent-utils.mvn.repo</id>-->
-    <!--<url>https://raw.github.com/HaraldWalker/user-agent-utils/mvn-repo/</url>-->
-    <!--<releases>-->
-    <!--<enabled>true</enabled>-->
-    <!--</releases>-->
-    <!--<snapshots>-->
-    <!--<enabled>true</enabled>-->
-    <!--<updatePolicy>always</updatePolicy>-->
-    <!--</snapshots>-->
-    <!--</repository>-->
-    <!--</repositories>-->
     <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://maven.aliyun.com/nexus/service/local/repositories/central/content/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>oschina</id>
             <name>oschina nexus</name>
@@ -189,8 +174,9 @@
         <junit.version>4.11</junit.version>
         <log4j.version>2.5</log4j.version>
 
-        <spark.version>2.0.0-preview</spark.version>
+        <spark.version>2.0.0</spark.version>
         <spark.scala.version>2.11</spark.scala.version>
+        <scala.soft.version>2.11</scala.soft.version>
 
         <hbase.client.version>1.2.1</hbase.client.version>
 
@@ -272,6 +258,18 @@
             <version>${spark.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_2.11</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scalanlp</groupId>
+            <artifactId>breeze_${spark.scala.version}</artifactId>
+            <version>0.11.2</version>
+        </dependency>
+
         <!-- ======================================   HBase Client Jar ===================================================================-->
         <dependency>
             <groupId>org.apache.hbase</groupId>
@@ -289,8 +287,37 @@
             <version>${hbase.client.version}</version>
         </dependency>
 
+        <!-- ======================================   Kafka Client Jar ===================================================================-->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka_${scala.soft.version}</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_${scala.soft.version}</artifactId>
+            <version>0.10.0.1</version>
+        </dependency>
+
+        <!-- ======================================   Flume Client Jar ===================================================================-->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-flume-sink_${scala.soft.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-flume_${scala.soft.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
+
 
         <!-- ======================================   ElasticSearch Client Jar ===================================================================-->
+
+
+
+
 
     </dependencies>
 

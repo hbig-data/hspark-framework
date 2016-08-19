@@ -2,7 +2,8 @@ package com.hspark.job.sql;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.DataFrame;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 
 /**
@@ -23,7 +24,8 @@ public class SparkReadJson {
         String path = "file:///E:/test/spark-sql.json";
 
         //指定数据格式加载数据
-        DataFrame df = sc.read().format("json").load(path);
+        Dataset<Row> df = sc.read().format("json").load(path);
+
         df.registerTempTable("test");
 
         //直接对文件使用 SQL
