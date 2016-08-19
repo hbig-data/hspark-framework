@@ -40,13 +40,12 @@ public class JavaALSExample {
                 .getOrCreate();
 
         // $example on$
-        JavaRDD<Rating> ratingsRDD = spark
-                .read().textFile("data/mllib/als/sample_movielens_ratings.txt").javaRDD()
-                .map(new Function<String, Rating>() {
-                    public Rating call(String str) {
-                        return Rating.parseRating(str);
-                    }
-                });
+        JavaRDD<Rating> ratingsRDD = spark.read().textFile("data/mllib/als/sample_movielens_ratings.txt").javaRDD().map(new Function<String, Rating>() {
+            public Rating call(String str) {
+                return Rating.parseRating(str);
+            }
+        });
+
         Dataset<Row> ratings = spark.createDataFrame(ratingsRDD, Rating.class);
         Dataset<Row>[] splits = ratings.randomSplit(new double[]{0.8, 0.2});
         Dataset<Row> training = splits[0];
@@ -59,15 +58,20 @@ public class JavaALSExample {
                 .setUserCol("userId")
                 .setItemCol("movieId")
                 .setRatingCol("rating");
+
         ALSModel model = als.fit(training);
 
         // Evaluate the model by computing the RMSE on the test data
         Dataset<Row> predictions = model.transform(test);
 
+        /**
+         * 回归评价
+         */
         RegressionEvaluator evaluator = new RegressionEvaluator()
                 .setMetricName("rmse")
                 .setLabelCol("rating")
                 .setPredictionCol("prediction");
+
         Double rmse = evaluator.evaluate(predictions);
         System.out.println("Root-mean-square error = " + rmse);
         // $example off$
