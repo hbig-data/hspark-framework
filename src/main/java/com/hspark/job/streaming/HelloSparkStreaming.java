@@ -1,6 +1,6 @@
 package com.hspark.job.streaming;
 
-import com.google.common.base.Optional;
+import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -29,7 +30,7 @@ public class HelloSparkStreaming {
     private static final Pattern SPACE = Pattern.compile(" ");
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         JavaStreamingContext jssc = new JavaStreamingContext("local[1]", "JavaNetworkWordCount", new Duration(10000));
 
@@ -41,8 +42,8 @@ public class HelloSparkStreaming {
         //按行输入，以空格分隔
         JavaDStream<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
             @Override
-            public Iterable<String> call(String line) throws Exception {
-                return Arrays.asList(SPACE.split(line));
+            public Iterator<String> call(String line) throws Exception {
+                return Arrays.asList(SPACE.split(line)).iterator();
             }
         });
 
@@ -62,14 +63,15 @@ public class HelloSparkStreaming {
         JavaPairDStream<String, Integer> counts = pairs.updateStateByKey(new Function2<List<Integer>, Optional<Integer>, Optional<Integer>>() {
             @Override
             public Optional<Integer> call(List<Integer> values, Optional<Integer> state) throws Exception {
-
                 Integer newSum = state.or(0);
-                for(Integer i :values) {
+                for (Integer i : values) {
                     newSum += i;
                 }
                 return Optional.of(newSum);
+
             }
         });
+
 
         System.out.println("=================" + counts);
         log.info("{}", counts);
@@ -77,6 +79,8 @@ public class HelloSparkStreaming {
 
 
         jssc.start();
+
+
         jssc.awaitTermination();
     }
 }

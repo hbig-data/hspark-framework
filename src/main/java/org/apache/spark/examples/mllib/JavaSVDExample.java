@@ -40,7 +40,7 @@ import java.util.LinkedList;
  */
 public class JavaSVDExample {
     public static void main(String[] args) {
-        SparkConf conf = new SparkConf().setAppName("SVD Example");
+        SparkConf conf = new SparkConf().setAppName("SVD Example").setMaster("local[1]");
         SparkContext sc = new SparkContext(conf);
         JavaSparkContext jsc = JavaSparkContext.fromSparkContext(sc);
 
@@ -51,6 +51,7 @@ public class JavaSVDExample {
             Vector currentRow = Vectors.dense(array[i]);
             rowsList.add(currentRow);
         }
+
         JavaRDD<Vector> rows = jsc.parallelize(rowsList);
 
         // Create a RowMatrix from JavaRDD<Vector>.

@@ -53,7 +53,6 @@ public final class JavaNetworkWordCount {
             System.exit(1);
         }
 
-        StreamingExamples.setStreamingLogLevels();
 
         // Create the context with a 1 second batch size
         SparkConf sparkConf = new SparkConf().setAppName("JavaNetworkWordCount");

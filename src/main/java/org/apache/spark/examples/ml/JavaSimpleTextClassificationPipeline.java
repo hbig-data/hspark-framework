@@ -28,6 +28,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -39,6 +40,28 @@ import java.util.List;
  * </pre>
  */
 public class JavaSimpleTextClassificationPipeline {
+
+    static class LabeledDocument implements Serializable {
+        private long id;
+        private String text;
+        private double score;
+
+        public LabeledDocument(long id, String text, double score) {
+            this.id = id;
+            this.score = score;
+            this.text = text;
+        }
+    }
+
+    static class Document implements Serializable{
+        private long id;
+        private String text;
+
+        public Document(long id, String text) {
+            this.id = id;
+            this.text = text;
+        }
+    }
 
     public static void main(String[] args) {
         SparkSession spark = SparkSession
@@ -52,17 +75,19 @@ public class JavaSimpleTextClassificationPipeline {
                 new LabeledDocument(1L, "b d", 0.0),
                 new LabeledDocument(2L, "spark f g h", 1.0),
                 new LabeledDocument(3L, "hadoop mapreduce", 0.0));
-        Dataset<Row> training =
-                spark.createDataFrame(localTraining, LabeledDocument.class);
+
+        Dataset<Row> training = spark.createDataFrame(localTraining, LabeledDocument.class);
 
         // Configure an ML pipeline, which consists of three stages: tokenizer, hashingTF, and lr.
         Tokenizer tokenizer = new Tokenizer()
                 .setInputCol("text")
                 .setOutputCol("words");
+
         HashingTF hashingTF = new HashingTF()
                 .setNumFeatures(1000)
                 .setInputCol(tokenizer.getOutputCol())
                 .setOutputCol("features");
+
         LogisticRegression lr = new LogisticRegression()
                 .setMaxIter(10)
                 .setRegParam(0.001);

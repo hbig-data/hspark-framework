@@ -11,10 +11,7 @@ import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import scala.Tuple2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * @author Rayn on 2016/7/2.
@@ -36,16 +33,16 @@ public class WordCount {
 
         time = System.currentTimeMillis();
         JavaRDD<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
-            public Iterable<String> call(String s) {
+            public Iterator<String> call(String s) {
                 List<String> words = new ArrayList<String>();
                 if(StringUtils.isNotBlank(s)) {
                     StringTokenizer tokenizer = new StringTokenizer(s);
                     while (tokenizer.hasMoreTokens()) {
                         words.add(StringUtils.trim(tokenizer.nextToken().replaceAll("\\W", "")));
                     }
-                    return words;
+                    return words.iterator();
                 } else {
-                    return Collections.<String>emptyList();
+                    return Collections.EMPTY_LIST.iterator();
                 }
             }
         });

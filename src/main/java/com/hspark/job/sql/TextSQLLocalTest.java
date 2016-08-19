@@ -8,6 +8,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.ForeachFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
@@ -80,20 +81,26 @@ public class TextSQLLocalTest implements Serializable {
         // SQL can be run over RDDs that have been registered as tables.
         Dataset<Row> teenagers = sqlContext.sql("SELECT text, count(*) as c FROM pair group by text order by c DESC limit 20");
 
-        Row[] collect = teenagers.collect();
-        for (Row row : collect) {
-            System.out.println(row.get(0) + "    " + row.get(1));
-        }
+        teenagers.foreach(new ForeachFunction<Row>() {
+            @Override
+            public void call(Row row) throws Exception {
+                System.out.println(row.get(0) + "    " + row.get(1));
+            }
+        });
+
 
         System.out.println("===================================");
 
         //schemaPeople2.registerTempTable("pair2");
         teenagers = sqlContext.sql("SELECT text, count(*) as c " +
                 "FROM pair group by text order by c DESC limit 20");
-        collect = teenagers.collect();
-        for (Row row : collect) {
-            System.out.println(row.get(0) + "    " + row.get(1));
-        }
+
+        teenagers.foreach(new ForeachFunction<Row>() {
+            @Override
+            public void call(Row row) throws Exception {
+                System.out.println(row.get(0) + "    " + row.get(1));
+            }
+        });
 
         while (true) {
             try {
