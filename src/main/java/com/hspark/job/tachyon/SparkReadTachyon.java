@@ -6,7 +6,9 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Rayn
@@ -21,7 +23,17 @@ public class SparkReadTachyon implements Serializable{
         SparkConf sparkConf = new SparkConf().setMaster("local[1]").setAppName("Tachyon");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
-        JavaRDD<String> javaRDD = sc.textFile("alluxio://192.168.1.116:19998/LICENSE");
+//        JavaRDD<String> javaRDD = sc.textFile("alluxio://192.168.1.116:19998/LICENSE");
+
+        List<String> params = new ArrayList<String>();
+        params.add("第一个");
+        params.add("第二个");
+        params.add("第三个");
+        params.add("第四个");
+        params.add("第五个");
+
+        JavaRDD<String> javaRDD = sc.parallelize(params);
+
 
         JavaRDD<String> map = javaRDD.map(new Function<String, String>() {
             @Override
