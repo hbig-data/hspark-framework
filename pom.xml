@@ -183,6 +183,11 @@
 
         <hbase.client.version>1.2.1</hbase.client.version>
 
+        <jcommander.version>1.27</jcommander.version>
+        <datavec.version>0.5.0</datavec.version>
+        <nd4j.version>0.5.0</nd4j.version>
+        <dl4j.version>0.5.0</dl4j.version>
+
 
         <alluxio.core.version>1.2.0</alluxio.core.version>
 
@@ -341,6 +346,40 @@
         </dependency>
 
 
+        <!-- ======================================   MLlib Jar ===================================================================-->
+        <dependency>
+            <groupId>org.datavec</groupId>
+            <artifactId>datavec-api</artifactId>
+            <version>${datavec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.datavec</groupId>
+            <artifactId>datavec-spark_${scala.soft.version}</artifactId>
+            <version>${datavec.version}</version>
+        </dependency>
+
+        <!-- ======================================   deeplearning4j Jar ===================================================================-->
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>dl4j-spark_${scala.soft.version}</artifactId>
+            <version>${dl4j.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spark-core_2.11</artifactId>
+                    <groupId>org.apache.spark</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>${jcommander.version}</version>
+        </dependency>
 
     </dependencies>
 
