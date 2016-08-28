@@ -10,9 +10,9 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.PairFunction;
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
-import org.deeplearning4j.mlp.sequence.FromSequenceFilePairFunction;
-import org.deeplearning4j.mlp.sequence.ToSequenceFilePairFunction;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
@@ -30,6 +30,7 @@ import org.deeplearning4j.spark.stats.StatsUtils;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
+import scala.Tuple2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,13 +88,23 @@ public class MnistMLPPreprocessed {
             }
 
             JavaRDD<DataSet> rdd = sc.parallelize(list);
-            JavaPairRDD<Text,BytesWritable> forSequenceFile = rdd.mapToPair(new ToSequenceFilePairFunction());
+            JavaPairRDD<Text,BytesWritable> forSequenceFile = rdd.mapToPair(new PairFunction<DataSet, Text, BytesWritable>() {
+                @Override
+                public Tuple2<Text, BytesWritable> call(DataSet set) throws Exception {
+                    return null;
+                }
+            });
             forSequenceFile.saveAsHadoopFile(dataSavePath, Text.class, BytesWritable.class, SequenceFileOutputFormat.class);
         }
 
         //Second: load the data from a sequence file
         JavaPairRDD<Text,BytesWritable> sequenceFile = sc.sequenceFile(dataSavePath, Text.class, BytesWritable.class);
-        JavaRDD<DataSet> trainData = sequenceFile.map(new FromSequenceFilePairFunction());
+        JavaRDD<DataSet> trainData = sequenceFile.map(new Function<Tuple2<Text, BytesWritable>, DataSet>() {
+            @Override
+            public DataSet call(Tuple2<Text, BytesWritable> tuple2) throws Exception {
+                return null;
+            }
+        });
 
 
         //----------------------------------
