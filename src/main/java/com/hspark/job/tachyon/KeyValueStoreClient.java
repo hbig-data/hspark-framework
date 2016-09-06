@@ -7,18 +7,18 @@ import alluxio.client.file.FileInStream;
 import alluxio.client.file.FileOutStream;
 import alluxio.client.file.FileSystem;
 import alluxio.client.file.options.CreateFileOptions;
-import alluxio.client.keyvalue.KeyValueStoreWriter;
-import alluxio.client.keyvalue.KeyValueSystem;
+import alluxio.client.keyvalue.*;
 import alluxio.exception.AlluxioException;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * @author Rayn
  * @email liuwei412552703@163.com
  * Created by Rayn on 2016/8/22 14:38.
  */
-public class AlluxioClient {
+public class KeyValueStoreClient {
 
     /**
      * 读文件
@@ -42,11 +42,11 @@ public class AlluxioClient {
     }
 
     /**
-     *
+     * 键值存储库
      * @throws IOException
      * @throws AlluxioException
      */
-    public void keyvalueSystem() throws IOException, AlluxioException {
+    public void writeKVSystem() throws IOException, AlluxioException {
 
         KeyValueSystem kvs = KeyValueSystem.Factory.create();
         KeyValueStoreWriter writer = kvs.createStore(new AlluxioURI("alluxio://path/my-kvstore"));
@@ -58,6 +58,36 @@ public class AlluxioClient {
 
         // Close and complete the store
         writer.close();
+    }
+
+    /**
+     * 键值存储库 读数据
+     * @throws IOException
+     * @throws AlluxioException
+     */
+    public void readKVSystem() throws IOException, AlluxioException {
+
+        KeyValueSystem kvs = KeyValueSystem.Factory.create();
+
+        KeyValueStoreReader reader = kvs.openStore(new AlluxioURI("alluxio://path/kvstore/"));
+        // Return "foo"
+        reader.get("100".getBytes());
+        // Return null as no value associated with "300"
+        reader.get("300".getBytes());
+
+
+        /**
+         * 第二种方式
+         */
+        KeyValueIterator iterator = reader.iterator();
+        while (iterator.hasNext()) {
+            KeyValuePair pair = iterator.next();
+            ByteBuffer key = pair.getKey();
+            ByteBuffer value = pair.getValue();
+        }
+
+        // Close the reader on the store
+        reader.close();
     }
 
     public static void main(String[] args) throws IOException, AlluxioException {
