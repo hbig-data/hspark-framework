@@ -44,8 +44,7 @@ public final class JavaStatusTrackerDemo {
         final JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
         // Example of implementing a progress reporter for a simple job.
-        JavaRDD<Integer> rdd = jsc.parallelize(Arrays.asList(1, 2, 3, 4, 5), 5).map(
-                new IdentityWithDelay<Integer>());
+        JavaRDD<Integer> rdd = jsc.parallelize(Arrays.asList(1, 2, 3, 4, 5), 5).map(new IdentityWithDelay<Integer>());
         JavaFutureAction<List<Integer>> jobFuture = rdd.collectAsync();
         while (!jobFuture.isDone()) {
             Thread.sleep(1000);  // 1 second
@@ -56,8 +55,7 @@ public final class JavaStatusTrackerDemo {
             int currentJobId = jobIds.get(jobIds.size() - 1);
             SparkJobInfo jobInfo = jsc.statusTracker().getJobInfo(currentJobId);
             SparkStageInfo stageInfo = jsc.statusTracker().getStageInfo(jobInfo.stageIds()[0]);
-            System.out.println(stageInfo.numTasks() + " tasks total: " + stageInfo.numActiveTasks() +
-                    " active, " + stageInfo.numCompletedTasks() + " complete");
+            System.out.println(stageInfo.numTasks() + " tasks total: " + stageInfo.numActiveTasks() + " active, " + stageInfo.numCompletedTasks() + " complete");
         }
 
         System.out.println("Job results are: " + jobFuture.get());
