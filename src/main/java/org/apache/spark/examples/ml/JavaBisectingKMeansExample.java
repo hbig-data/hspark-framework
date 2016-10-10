@@ -17,17 +17,12 @@
 
 package org.apache.spark.examples.ml;
 
-// $example on$
-
 import org.apache.spark.ml.clustering.BisectingKMeans;
 import org.apache.spark.ml.clustering.BisectingKMeansModel;
-import org.apache.spark.ml.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-
-// $example off$
-
 
 /**
  * An example demonstrating bisecting k-means clustering.
@@ -58,7 +53,7 @@ public class JavaBisectingKMeansExample {
 
         // Shows the result.
         System.out.println("Cluster Centers: ");
-        Vector[] centers = model.clusterCenters();
+        Vector[] centers = (Vector[]) model.clusterCenters();
         for (Vector center : centers) {
             System.out.println(center);
         }

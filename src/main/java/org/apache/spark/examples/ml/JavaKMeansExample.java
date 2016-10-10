@@ -21,7 +21,7 @@ package org.apache.spark.examples.ml;
 
 import org.apache.spark.ml.clustering.KMeans;
 import org.apache.spark.ml.clustering.KMeansModel;
-import org.apache.spark.ml.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -58,7 +58,7 @@ public class JavaKMeansExample {
         System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
 
         // Shows the result.
-        Vector[] centers = model.clusterCenters();
+        Vector[] centers = (Vector[]) model.clusterCenters();
         System.out.println("Cluster Centers: ");
         for (Vector center : centers) {
             System.out.println(center);

@@ -5,7 +5,7 @@ import alluxio.client.lineage.AlluxioLineage;
 import alluxio.exception.AlluxioException;
 import alluxio.job.CommandLineJob;
 import alluxio.job.JobConf;
-import org.spark_project.guava.collect.Lists;
+import com.google.common.collect.Lists;
 
 import java.io.IOException;
 import java.util.List;

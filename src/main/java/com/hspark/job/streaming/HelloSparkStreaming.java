@@ -82,5 +82,7 @@ public class HelloSparkStreaming {
 
 
         jssc.awaitTermination();
+
+        jssc.close();
     }
 }
