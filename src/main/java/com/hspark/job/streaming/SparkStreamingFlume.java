@@ -41,11 +41,10 @@ public class SparkStreamingFlume implements Serializable {
 */
 
         // 注意此处输入的event类型是SparkFlumeEvent类型。
-
-
         lines.mapToPair(new PairFunction<SparkFlumeEvent, String, Integer>() {
             public Tuple2<String,Integer> call(SparkFlumeEvent event) throws Exception {
-                return new Tuple2<String, Integer>(new String(event.event().getBody().array()), 1);
+
+                return new Tuple2<String, Integer>(new String(String.valueOf(event.event().getBody().array())), 1);
             }
         }).reduceByKey(new Function2<Integer, Integer, Integer>() {
             public Integer call(Integer v1, Integer v2) throws Exception {

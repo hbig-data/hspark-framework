@@ -30,8 +30,8 @@ public class SparkReadKafka {
 
         Map<String, String> kafkaParams = new HashMap<String, String>();
         kafkaParams.put("zookeeper.connect", args[2]);
-        kafkaParams.put("group.id", args[3]);
-        kafkaParams.put("metadata.broker.list", args[4]);
+        kafkaParams.put("metadata.broker.list", args[3]);
+        kafkaParams.put("group.id", args[4]);
 
 
         Set<String> topic = new HashSet<String>();

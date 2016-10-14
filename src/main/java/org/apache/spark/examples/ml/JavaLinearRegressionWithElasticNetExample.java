@@ -17,16 +17,13 @@
 
 package org.apache.spark.examples.ml;
 
-// $example on$
-
-import org.apache.spark.ml.linalg.Vectors;
 import org.apache.spark.ml.regression.LinearRegression;
 import org.apache.spark.ml.regression.LinearRegressionModel;
 import org.apache.spark.ml.regression.LinearRegressionTrainingSummary;
+import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-// $example off$
 
 public class JavaLinearRegressionWithElasticNetExample {
     public static void main(String[] args) {

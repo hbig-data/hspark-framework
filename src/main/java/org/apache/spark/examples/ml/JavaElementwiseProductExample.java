@@ -37,37 +37,37 @@ import java.util.List;
 // $example off$
 
 public class JavaElementwiseProductExample {
-    public static void main(String[] args) {
-        SparkSession spark = SparkSession
-                .builder()
-                .appName("JavaElementwiseProductExample")
-                .getOrCreate();
+  public static void main(String[] args) {
+    SparkSession spark = SparkSession
+      .builder()
+      .appName("JavaElementwiseProductExample")
+      .getOrCreate();
 
-        // $example on$
-        // Create some vector data; also works for sparse vectors
-        List<Row> data = Arrays.asList(
-                RowFactory.create("a", Vectors.dense(1.0, 2.0, 3.0)),
-                RowFactory.create("b", Vectors.dense(4.0, 5.0, 6.0))
-        );
+    // $example on$
+    // Create some vector data; also works for sparse vectors
+    List<Row> data = Arrays.asList(
+      RowFactory.create("a", Vectors.dense(1.0, 2.0, 3.0)),
+      RowFactory.create("b", Vectors.dense(4.0, 5.0, 6.0))
+    );
 
-        List<StructField> fields = new ArrayList<>(2);
-        fields.add(DataTypes.createStructField("id", DataTypes.StringType, false));
-        fields.add(DataTypes.createStructField("vector", new VectorUDT(), false));
+    List<StructField> fields = new ArrayList<>(2);
+    fields.add(DataTypes.createStructField("id", DataTypes.StringType, false));
+    fields.add(DataTypes.createStructField("vector", new VectorUDT(), false));
 
-        StructType schema = DataTypes.createStructType(fields);
+    StructType schema = DataTypes.createStructType(fields);
 
-        Dataset<Row> dataFrame = spark.createDataFrame(data, schema);
+    Dataset<Row> dataFrame = spark.createDataFrame(data, schema);
 
-        Vector transformingVector = Vectors.dense(0.0, 1.0, 2.0);
+    Vector transformingVector = Vectors.dense(0.0, 1.0, 2.0);
 
-        ElementwiseProduct transformer = new ElementwiseProduct()
-                .setScalingVec(transformingVector)
-                .setInputCol("vector")
-                .setOutputCol("transformedVector");
+    ElementwiseProduct transformer = new ElementwiseProduct()
+      .setScalingVec(transformingVector)
+      .setInputCol("vector")
+      .setOutputCol("transformedVector");
 
-        // Batch transform the vectors to create new column:
-        transformer.transform(dataFrame).show();
-        // $example off$
-        spark.stop();
-    }
+    // Batch transform the vectors to create new column:
+    transformer.transform(dataFrame).show();
+    // $example off$
+    spark.stop();
+  }
 }

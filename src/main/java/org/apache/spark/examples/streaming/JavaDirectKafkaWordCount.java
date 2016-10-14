@@ -17,6 +17,7 @@
 
 package org.apache.spark.examples.streaming;
 
+import com.hspark.job.outputformat.HdfsOutputFormat;
 import kafka.serializer.StringDecoder;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.FlatMapFunction;
@@ -99,6 +100,8 @@ public final class JavaDirectKafkaWordCount {
                     }
                 });
         wordCounts.print();
+
+        wordCounts.saveAsNewAPIHadoopFiles("/test", "subffix", String.class, String.class, HdfsOutputFormat.class);
 
         // Start the computation
         jssc.start();

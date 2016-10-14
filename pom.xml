@@ -28,17 +28,6 @@
             </snapshots>
         </repository>
         <repository>
-            <id>oschina</id>
-            <name>oschina nexus</name>
-            <url>http://maven.oschina.net/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>mvnrepository</id>
             <name>mvn repository</name>
             <url>http://mvnrepository.com/</url>
@@ -174,19 +163,20 @@
         <junit.version>4.11</junit.version>
         <log4j.version>2.5</log4j.version>
 
-        <spark.version>2.0.0</spark.version>
+        <spark.version>2.0.1</spark.version>
         <spark.scala.version>2.11</spark.scala.version>
+        <kafka.version>0.8.2.1</kafka.version>
 
         <spark.csv.version>1.4.0</spark.csv.version>
-
         <scala.soft.version>2.11</scala.soft.version>
-
         <hbase.client.version>1.2.1</hbase.client.version>
-
         <jcommander.version>1.27</jcommander.version>
         <datavec.version>0.5.0</datavec.version>
         <nd4j.version>0.5.0</nd4j.version>
         <dl4j.version>0.5.0</dl4j.version>
+
+
+        <opencv.version>2.4.13-0</opencv.version>
 
 
         <alluxio.core.version>1.2.0</alluxio.core.version>
@@ -310,11 +300,11 @@
             <artifactId>spark-streaming-kafka_${scala.soft.version}</artifactId>
             <version>1.6.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_${scala.soft.version}</artifactId>
-            <version>0.10.0.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.kafka</groupId>-->
+            <!--<artifactId>kafka_${scala.soft.version}</artifactId>-->
+            <!--<version>${kafka.version}</version>-->
+        <!--</dependency>-->
 
         <!-- ======================================   Flume Client Jar ===================================================================-->
         <dependency>
@@ -391,10 +381,18 @@
             <version>${jcommander.version}</version>
         </dependency>
 
+
+        <!-- ======================================   opencv Jar ===================================================================-->
+        <dependency>
+            <groupId>nu.pattern</groupId>
+            <artifactId>opencv</artifactId>
+            <version>2.4.9-7</version>
+        </dependency>
+
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}-{project.version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
 
         <plugins>
             <plugin>
