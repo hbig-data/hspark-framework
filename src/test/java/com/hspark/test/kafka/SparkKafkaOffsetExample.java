@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @email liuwei412552703@163.com
  * Created by Rayn on 2016/11/10 14:54.
  */
-public class KafkaOffsetExample {
+public class SparkKafkaOffsetExample {
 
 
     private static KafkaCluster kafkaCluster = null;
@@ -54,7 +54,7 @@ public class KafkaOffsetExample {
 
 
         kafkaParam.put("metadata.broker.list", "test:9092");
-        kafkaParam.put("group.id", "com.xueba207.test");
+        kafkaParam.put("group.id", "default.test");
 
         // transform java Map to scala immutable.map
         scala.collection.mutable.Map<String, String> testMap = JavaConversions.mapAsScalaMap(kafkaParam);

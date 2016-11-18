@@ -17,25 +17,26 @@
 package com.hspark.test.kafka;
 
 
+import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 
 import java.util.Properties;
 
 /**
- *
+ * Kafka 生产者测试
  */
 public class SimpleKafkaProducer extends Thread {
-    private final kafka.javaapi.producer.Producer<Integer, String> producer;
+    private final Producer<Integer, String> producer;
     private final String topic;
     private final Properties props = new Properties();
 
     public SimpleKafkaProducer(String topic) {
-        props.put("serializer.class", "kafka.serializer.StringEncoder");
-        props.put("metadata.broker.list", "192.168.1.234:9092,192.168.1.235:9092");
+        props.put("serializer.class", KafkaProperties.serializerClass);
+        props.put("metadata.broker.list", KafkaProperties.brokerList);
         // Use random partitioner. Don't need the key type. Just set it to Integer.
         // The message is of type String.
-        producer = new kafka.javaapi.producer.Producer<Integer, String>(new ProducerConfig(props));
+        producer = new Producer<Integer, String>(new ProducerConfig(props));
         this.topic = topic;
     }
 
@@ -50,7 +51,7 @@ public class SimpleKafkaProducer extends Thread {
 
     public static void main(String[] args) {
 
-        SimpleKafkaConsumer consumerThread = new SimpleKafkaConsumer(KafkaProperties.topic);
+        SimpleKafkaProducer consumerThread = new SimpleKafkaProducer(KafkaProperties.topic);
         consumerThread.start();
     }
 }
