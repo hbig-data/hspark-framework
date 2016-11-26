@@ -1,3 +1,19 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.hspark.test.kafka;
 
 import kafka.api.FetchRequest;
@@ -18,15 +34,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleConsumerDemo {
+/**
+ * @author Rayn
+ * @email liuwei412552703@163.com
+ * Created by Rayn on 2016/10/10 9:43.
+ */
+public class SimpleConsumerExample {
 
-    private SimpleConsumer simpleConsumer = new SimpleConsumer(KafkaProperties.kafkaServerURL,
+    private static final SimpleConsumer simpleConsumer = new SimpleConsumer(KafkaProperties.kafkaServerURL,
             KafkaProperties.kafkaServerPort,
             KafkaProperties.connectionTimeOut,
             KafkaProperties.kafkaProducerBufferSize,
             KafkaProperties.clientId);
-
-
 
     /**
      * @param messageSet
@@ -63,7 +82,7 @@ public class SimpleConsumerDemo {
     }
 
 
-    public void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         System.out.println("Testing single fetch");
         FetchRequest req = new FetchRequestBuilder()
@@ -74,12 +93,14 @@ public class SimpleConsumerDemo {
 
         /**
          * 拉取消息
-          */
+         */
         FetchResponse fetchResponse = simpleConsumer.fetch(req);
-        printMessages((ByteBufferMessageSet) fetchResponse.messageSet(KafkaProperties.topic, 0));
+        printMessages(fetchResponse.messageSet(KafkaProperties.topic, 0));
 
 
-
+        /**
+         * 多 Topic 数据拉取
+         */
         System.out.println("Testing single multi-fetch");
         Map<String, List<Integer>> topicMap = new HashMap<String, List<Integer>>() {{
             put(KafkaProperties.topic2, new ArrayList<Integer>() {{

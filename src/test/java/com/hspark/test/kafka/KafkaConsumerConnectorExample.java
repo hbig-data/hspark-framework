@@ -17,25 +17,31 @@
 package com.hspark.test.kafka;
 
 
-import kafka.common.TopicAndPartition;
 import kafka.consumer.Consumer;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
+import kafka.message.MessageAndMetadata;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-
-public class SimpleKafkaConsumer extends Thread {
+/**
+ * Kakfa 原生 API 接口
+ *
+ * @author Rayn
+ * @email liuwei412552703@163.com
+ * Created by Rayn on 2016/10/10 9:43.
+ */
+public class KafkaConsumerConnectorExample extends Thread {
     private final ConsumerConnector consumer;
     private final String topic;
 
-    public SimpleKafkaConsumer(String topic) {
-        consumer = Consumer.createJavaConsumerConnector(createConsumerConfig());
+    public KafkaConsumerConnectorExample(String topic) {
+       consumer = Consumer.createJavaConsumerConnector(createConsumerConfig());
         this.topic = topic;
     }
 
@@ -43,9 +49,9 @@ public class SimpleKafkaConsumer extends Thread {
         Properties props = new Properties();
         props.put("zookeeper.connect", KafkaProperties.zkConnect);
         props.put("group.id", KafkaProperties.groupId);
-        props.put("zookeeper.session.timeout.ms", "400");
-        props.put("zookeeper.sync.time.ms", "200");
-        props.put("auto.commit.interval.ms", "1000");
+        props.put("zookeeper.session.timeout.ms", "10000");
+        props.put("zookeeper.sync.time.ms", "2000");
+        props.put("auto.commit.interval.ms", "10000");
         props.put("auto.offset.reset", "largest");
 
         return new ConsumerConfig(props);
@@ -59,24 +65,24 @@ public class SimpleKafkaConsumer extends Thread {
         Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
         topicCountMap.put(topic, new Integer(1));
 
-        TopicAndPartition topicAndPartition = new TopicAndPartition(KafkaProperties.topic, 0);
-
-
         Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumer.createMessageStreams(topicCountMap);
-
         List<KafkaStream<byte[], byte[]>> kafkaStreams = consumerMap.get(topic);
 
         KafkaStream<byte[], byte[]> stream = kafkaStreams.get(0);
-
-
         ConsumerIterator<byte[], byte[]> it = stream.iterator();
 
         while (it.hasNext()) {
 
-            System.out.println(new String(it.next().message()));
+            MessageAndMetadata<byte[], byte[]> next = it.next();
+
+            if(null != next.key()){
+                System.out.println("当前消息Offset : " + new String(next.key()) + "当前消息体：" + new String(next.message()));
+            } else {
+                System.out.println("当前消息Offset : " + next.offset() + ", 当前消息体：" + new String(next.message()));
+            }
 
             try {
-                Thread.sleep(5 * 1000);
+                Thread.sleep(1 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -85,7 +91,7 @@ public class SimpleKafkaConsumer extends Thread {
 
     public static void main(String[] args) {
 
-        SimpleKafkaProducer producerThread = new SimpleKafkaProducer(KafkaProperties.topic);
+        KafkaConsumerConnectorExample producerThread = new KafkaConsumerConnectorExample(KafkaProperties.topic);
         producerThread.start();
     }
 }
