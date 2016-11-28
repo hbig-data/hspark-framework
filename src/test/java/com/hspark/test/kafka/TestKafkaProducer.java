@@ -31,7 +31,13 @@ public class TestKafkaProducer {
 
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void sendData(String data) {
+
+        kafkaProducer.send(new KeyedMessage<String, byte[]>("yaxin-test", data.getBytes()));
+
+    }
+
+    public static void main(String[] args) {
 
         int i = 0;
 
@@ -48,9 +54,5 @@ public class TestKafkaProducer {
     }
 
 
-    public static void sendData(String data) {
 
-        kafkaProducer.send(new KeyedMessage<String, byte[]>("yaxin-test", data.getBytes()));
-
-    }
 }
