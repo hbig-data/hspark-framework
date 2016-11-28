@@ -68,10 +68,10 @@ public class JavaCustomReceiver extends Receiver<String> {
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length < 2) {
-            System.err.println("Usage: JavaCustomReceiver <hostname> <port>");
-            System.exit(1);
-        }
+//        if (args.length < 2) {
+//            System.err.println("Usage: JavaCustomReceiver <hostname> <port>");
+//            System.exit(1);
+//        }
 
 
         // Create the context with a 1 second batch size

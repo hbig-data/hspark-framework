@@ -31,7 +31,7 @@ public class TestKafkaProducer {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         int i = 0;
 
@@ -39,8 +39,10 @@ public class TestKafkaProducer {
             sendData("hello kafka " + i++);
         }*/
         while (true){
-            sendData(i++ + "Hello");
-            System.out.println("发送一条数据");
+            sendData("{\"age\":20,\"name\":\"test\"}");
+            System.out.println("{\"age\":20,\"name\":\"test\"}");
+
+            Thread.sleep(1000);
         }
 
     }

@@ -4,6 +4,7 @@ import kafka.common.TopicAndPartition;
 import kafka.serializer.StringDecoder;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Duration;
@@ -32,16 +33,20 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SparkReadKafka {
 
     public static void main(String[] args) throws InterruptedException {
-        if(args.length < 4){
-            System.err.println("Please Usage : ");
-            System.err.println("java -cp com.test.spark.kafka <master> <batchDuration> <zookeeper.connect> <metadata.broker.list> <group.id> <topic>");
-            System.exit(0);
-        }
+//        if(args.length < 4){
+//            System.err.println("Please Usage : ");
+//            System.err.println("java -cp com.test.spark.kafka <master> <batchDuration> <zookeeper.connect> <metadata.broker.list> <group.id> <topic>");
+//            System.exit(0);
+//        }
+
+        String zk = "newledgedata-n7:2181";
+        String brokerList = "192.168.1.101:2181";
+
         JavaStreamingContext kafka = new JavaStreamingContext(args[0], "SparkReadKafka", new Duration(Long.parseLong(args[1])));
 
         Map<String, String> kafkaParams = new HashMap<String, String>();
-        kafkaParams.put("zookeeper.connect", args[2]);
-        kafkaParams.put("metadata.broker.list", args[3]);
+        kafkaParams.put("zookeeper.connect", zk);
+        kafkaParams.put("metadata.broker.list", brokerList);
         kafkaParams.put("group.id", args[4]);
 
 
@@ -54,7 +59,7 @@ public class SparkReadKafka {
         // 得到rdd各个分区对应的offset, 并保存在offsetRanges中
         final AtomicReference<OffsetRange[]> offsetRanges = new AtomicReference<OffsetRange[]>();
 
-        stream.transform(new Function<JavaPairRDD<String, String>, JavaRDD<String>>() {
+        JavaDStream<String> javaDStream = stream.transform(new Function<JavaPairRDD<String, String>, JavaRDD<String>>() {
             @Override
             public JavaRDD<String> call(JavaPairRDD<String, String> rdd) throws Exception {
                 OffsetRange[] offsets = ((HasOffsetRanges) rdd.rdd()).offsetRanges();
@@ -66,8 +71,6 @@ public class SparkReadKafka {
                 return rdd.values();
             }
         });
-
-
 
 
         JavaDStream<Long> count = stream.map(new Function<Tuple2<String, String>, String>() {
