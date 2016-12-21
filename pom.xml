@@ -172,6 +172,8 @@
 
         <flume.sdk.version>1.6.0</flume.sdk.version>
 
+        <talkingdata.fregdata.version>0.0.1</talkingdata.fregdata.version>
+
 
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -311,6 +313,31 @@
             <version>${flume.sdk.version}</version>
         </dependency>
 
+        <!-- ======================================   talkingdata fregata Jar ===================================================================-->
+        <dependency>
+            <groupId>com.talkingdata.fregata</groupId>
+            <artifactId>core</artifactId>
+            <version>${talkingdata.fregdata.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.talkingdata.fregata</groupId>
+            <artifactId>spark</artifactId>
+            <version>${talkingdata.fregdata.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-core_2.10</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-sql_2.10</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-mllib_2.10</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
     </dependencies>
 
