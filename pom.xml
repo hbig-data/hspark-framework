@@ -178,6 +178,9 @@
 
         <opencv.version>2.4.13-0</opencv.version>
 
+        <talkingdata.fregdata.version>0.0.1</talkingdata.fregdata.version>
+
+
 
         <alluxio.core.version>1.2.0</alluxio.core.version>
 
