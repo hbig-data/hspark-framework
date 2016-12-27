@@ -19,11 +19,13 @@
 
     <repositories>
         <repository>
-            <id>oschina</id>
-            <name>oschina nexus</name>
-            <url>http://maven.oschina.net/content/groups/public/</url>
+            <id>aliyun</id>
+            <name>aliyun Maven Central</name>
+            <layout>default</layout>
+            <url>http://maven.aliyun.com/nexus/service/local/repositories/central/content/</url>
             <releases>
                 <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
             </releases>
             <snapshots>
                 <enabled>false</enabled>
@@ -159,6 +161,22 @@
         </repository>
 
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyun-plugin</id>
+            <name>aliyun Maven Central</name>
+            <layout>default</layout>
+            <url>http://maven.aliyun.com/nexus/service/local/repositories/central/content/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 
     <properties>
