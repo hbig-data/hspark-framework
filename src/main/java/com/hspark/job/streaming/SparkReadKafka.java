@@ -55,7 +55,6 @@ public class SparkReadKafka {
 
         JavaPairInputDStream<String, String> stream = KafkaUtils.createDirectStream(kafka, String.class, String.class, StringDecoder.class, StringDecoder.class, kafkaParams, topic);
 
-
         // 得到rdd各个分区对应的offset, 并保存在offsetRanges中
         final AtomicReference<OffsetRange[]> offsetRanges = new AtomicReference<OffsetRange[]>();
 
