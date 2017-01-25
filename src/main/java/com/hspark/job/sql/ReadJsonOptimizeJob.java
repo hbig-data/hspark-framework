@@ -1,19 +1,14 @@
 package com.hspark.job.sql;
 
-import com.google.common.collect.Lists;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
-import org.apache.spark.sql.types.StructType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @Author Rayn
@@ -22,7 +17,6 @@ import java.util.regex.Pattern;
  */
 public class ReadJsonOptimizeJob implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(ReadJsonOptimizeJob.class);
-
 
 
     public static void main(String[] args) {

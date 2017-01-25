@@ -20,18 +20,21 @@ public class SparkReadJson {
         conf.set("spark.sql.dialect", "sql");
 
         JavaSparkContext sparkContext = new JavaSparkContext(conf);
-        SQLContext sc = new SQLContext(sparkContext);
+        SQLContext sqlContext = new SQLContext(sparkContext);
         String path = "file:///E:/test/spark-sql.json";
 
         //指定数据格式加载数据
-        Dataset<Row> df = sc.read().format("json").load(path);
+        Dataset<Row> df = sqlContext.read().format("json").load(path);
 
         df.registerTempTable("test");
 
         //直接对文件使用 SQL
-        df = sc.sql("select * from test");
+        df = sqlContext.sql("select * from test");
         df.show();
         df.select("name", "age").write().parquet("file:///E:/test/jsonTest.parquet");
+
+
+        Dataset<Row> dataset = sqlContext.sql("select name, age from test");
 
         sparkContext.close();
 
