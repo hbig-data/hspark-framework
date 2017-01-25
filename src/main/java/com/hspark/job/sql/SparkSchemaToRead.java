@@ -1,10 +1,7 @@
 package com.hspark.job.sql;
 
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SQLContext;
-import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.*;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructType;
@@ -20,7 +17,7 @@ public class SparkSchemaToRead {
 
     private static final Logger LOG = LoggerFactory.getLogger(SparkSchemaToRead.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AnalysisException {
 
         SparkSession sparkSession = SparkSession.builder().master("local[1]").appName("SparkSession").config("spark.sql.warehouse.dir", "file:///").getOrCreate();
 
@@ -39,6 +36,9 @@ public class SparkSchemaToRead {
         dataset.show();
 
         dataset.registerTempTable("tt");
+
+        dataset.createOrReplaceTempView("ttview");
+        dataset.createTempView("tempview");
 
         sparkSession.sql("select partner_code from tt").show();
 
