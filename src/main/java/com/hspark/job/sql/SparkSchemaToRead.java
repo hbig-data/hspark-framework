@@ -40,6 +40,7 @@ public class SparkSchemaToRead {
         dataset.createOrReplaceTempView("ttview");
         dataset.createTempView("tempview");
 
+
         sparkSession.sql("select partner_code from tt").show();
 
         long count = dataset.count();

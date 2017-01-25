@@ -32,39 +32,39 @@ import java.util.List;
  */
 public final class JavaSparkPi {
 
-    public static void main(String[] args) throws Exception {
-        SparkSession spark = SparkSession
-                .builder()
-                .appName("JavaSparkPi")
-                .getOrCreate();
+  public static void main(String[] args) throws Exception {
+    SparkSession spark = SparkSession
+      .builder()
+      .appName("JavaSparkPi")
+      .getOrCreate();
 
-        JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
+    JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
-        int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
-        int n = 100000 * slices;
-        List<Integer> l = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
-            l.add(i);
-        }
-
-        JavaRDD<Integer> dataSet = jsc.parallelize(l, slices);
-
-        int count = dataSet.map(new Function<Integer, Integer>() {
-            @Override
-            public Integer call(Integer integer) {
-                double x = Math.random() * 2 - 1;
-                double y = Math.random() * 2 - 1;
-                return (x * x + y * y < 1) ? 1 : 0;
-            }
-        }).reduce(new Function2<Integer, Integer, Integer>() {
-            @Override
-            public Integer call(Integer integer, Integer integer2) {
-                return integer + integer2;
-            }
-        });
-
-        System.out.println("Pi is roughly " + 4.0 * count / n);
-
-        spark.stop();
+    int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
+    int n = 100000 * slices;
+    List<Integer> l = new ArrayList<>(n);
+    for (int i = 0; i < n; i++) {
+      l.add(i);
     }
+
+    JavaRDD<Integer> dataSet = jsc.parallelize(l, slices);
+
+    int count = dataSet.map(new Function<Integer, Integer>() {
+      @Override
+      public Integer call(Integer integer) {
+        double x = Math.random() * 2 - 1;
+        double y = Math.random() * 2 - 1;
+        return (x * x + y * y < 1) ? 1 : 0;
+      }
+    }).reduce(new Function2<Integer, Integer, Integer>() {
+      @Override
+      public Integer call(Integer integer, Integer integer2) {
+        return integer + integer2;
+      }
+    });
+
+    System.out.println("Pi is roughly " + 4.0 * count / n);
+
+    spark.stop();
+  }
 }
