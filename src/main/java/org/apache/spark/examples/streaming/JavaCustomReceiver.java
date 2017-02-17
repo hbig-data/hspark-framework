@@ -64,8 +64,6 @@ public class JavaCustomReceiver extends Receiver<String> {
       System.exit(1);
     }
 
-    StreamingExamples.setStreamingLogLevels();
-
     // Create the context with a 1 second batch size
     SparkConf sparkConf = new SparkConf().setAppName("JavaCustomReceiver");
     JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, new Duration(1000));

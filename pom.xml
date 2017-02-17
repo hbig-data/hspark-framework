@@ -199,6 +199,8 @@
         <talkingdata.fregdata.version>0.0.1</talkingdata.fregdata.version>
 
 
+        <carbondata.version>1.0.0-incubating</carbondata.version>
+
 
         <alluxio.core.version>1.2.0</alluxio.core.version>
 
@@ -433,7 +435,36 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- ======================================   alluxio Client Jar ===================================================================-->
 
+
+
+        <!-- ======================================   carbondata Jar ===================================================================-->
+        <dependency>
+            <groupId>org.apache.carbondata</groupId>
+            <artifactId>carbondata-spark</artifactId>
+            <version>${carbondata.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-repl_2.10</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-hive-thriftserver_2.10</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-sql_2.10</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+
+
+
+        <!-- ======================================   mongo Jar ===================================================================-->
 
         <dependency>
             <groupId>org.mongodb.mongo-hadoop</groupId>
@@ -605,6 +636,8 @@
             <version>2.0.1</version>
         </dependency>
 
+
+        <!-- ======================================   BigDL Jar ===================================================================-->
 
 
 
