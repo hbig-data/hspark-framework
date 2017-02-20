@@ -18,6 +18,7 @@ import scala.collection.Iterator;
 import scala.collection.Seq;
 import scala.collection.mutable.StringBuilder;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Properties;
 
@@ -39,6 +40,9 @@ public class App {
 
         String json = JSONObject.toJSONString(person);
         log.info("{}", json);
+
+        File file = new File("E:/testtest.txt:js");
+        file.createNewFile();
 
     }
 }
